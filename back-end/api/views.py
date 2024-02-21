@@ -6,8 +6,6 @@ from rest_framework.decorators import api_view
 from pytube import YouTube
 import io
 from django.http import HttpResponse, HttpResponseServerError
-from django.http import FileResponse
-from tempfile import TemporaryFile
 from pytube import YouTube
 import traceback
 import logging
