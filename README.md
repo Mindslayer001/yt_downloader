@@ -1,7 +1,4 @@
-
-<body>
-
-    <h1>YouTube Video Downloader</h1>
+ <h1>YouTube Video Downloader</h1>
 
     <p>A simple web application for downloading YouTube videos by providing the video link. The application is built
         using Django Rest Framework for the backend and React for the frontend. It utilizes the Pytube library for
@@ -80,7 +77,3 @@
     <h2>License</h2>
 
     <p>This project is licensed under the <a href="./LICENSE">MIT License</a>.</p>
-
-</body>
-
-</html>
