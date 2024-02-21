@@ -11,6 +11,12 @@ from tempfile import TemporaryFile
 from pytube import YouTube
 import traceback
 import logging
+import requests
+
+
+def home(request):
+    return render(request, "api/demo.html",)
+
 
 @api_view(['GET'])
 def getDescription(request):
@@ -222,18 +228,20 @@ def extract_stream_info(streams):
 
     return stream_info
 
-
-def downloadStream(request, itag, video_id,):
+def downloadStream(request, video_id):
     try:
         video_url = f'https://www.youtube.com/watch?v={video_id}'
         yt = YouTube(video_url)
-        stream = yt.streams.itag(itag)
+        stream = yt.streams.get_lowest_resolution()
 
-        response = HttpResponse(content_type=stream.mime_type)
+        response = HttpResponse(content_type='video/mp4')  # Adjust the content type if necessary
         response['Content-Disposition'] = f'attachment; filename="{yt.title}.{stream.subtype}"'
 
-        for chunk in stream.stream_to_buffer(buffer_size=1024*1024):
-            response.write(chunk)
+        # Open the video stream using requests and stream the content to the response
+        with requests.get(stream.url, stream=True) as video_request:
+            for chunk in video_request.iter_content(chunk_size=1024 * 1024):
+                if chunk:
+                    response.write(chunk)
 
         return response
     except Exception as e:
